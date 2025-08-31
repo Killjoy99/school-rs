@@ -1,14 +1,11 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+pub mod ui;
+pub mod permission;
+pub mod role;
+pub mod user;
+pub mod user_role;
+pub mod role_permission;
+pub mod user_institution;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub use ui::{DashboardCard, Event};
+pub use permission::CreatePermissionSchema;
+pub use role::CreateRoleSchema;

@@ -30,7 +30,7 @@ actix-web = "4.11.0"
 lazy_static = "1.5.0"
 actix-files = "0.6.7"
 tera = "1.20.0"
-
+anyhow = "1.0.71"
 
 # Other Utility Modules
 serde = {version = "1.0.219", features = ["derive"]}
@@ -50,6 +50,6 @@ sha2 = "0.10.9"
 hmac = "0.12.1"
 hex = "0.4.3"
 bcrypt = "0.17.1"
-chrono = "0.4.41"
+chrono = { version = "0.4.41", features = ["serde"] }
 
 # API Documentation Modules

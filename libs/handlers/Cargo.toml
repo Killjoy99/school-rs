@@ -13,4 +13,5 @@ bcrypt ={ workspace = true }
 
 # Local dependencies
 models ={ path = "../models" }
+schemas ={ path = "../schemas"}
 utils ={ path = "../utils" }

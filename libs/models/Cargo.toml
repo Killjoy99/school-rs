@@ -7,3 +7,4 @@ edition = "2024"
 uuid ={ workspace = true }
 serde = { workspace = true }
 sqlx = { workspace = true }
+chrono ={ workspace = true, features = ["serde"]  }

@@ -500,6 +500,7 @@ dependencies = [
  "iana-time-zone",
  "js-sys",
  "num-traits",
+ "serde",
  "wasm-bindgen",
  "windows-link",
 ]
@@ -683,6 +684,10 @@ dependencies = [
 [[package]]
 name = "db"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "sqlx",
+]
 
 [[package]]
 name = "deadpool"
@@ -1054,6 +1059,7 @@ dependencies = [
  "actix-web",
  "bcrypt",
  "models",
+ "schemas",
  "sqlx",
  "tera",
  "utils",
@@ -1516,6 +1522,7 @@ dependencies = [
 name = "models"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "serde",
  "sqlx",
  "uuid",
@@ -2031,6 +2038,11 @@ dependencies = [
 [[package]]
 name = "schemas"
 version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "uuid",
+]
 
 [[package]]
 name = "school-rs"
@@ -2039,6 +2051,8 @@ dependencies = [
  "actix-files",
  "actix-session",
  "actix-web",
+ "anyhow",
+ "chrono",
  "config",
  "db",
  "deadpool-redis",

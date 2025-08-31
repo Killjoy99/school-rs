@@ -2,14 +2,13 @@ use actix_web::{cookie::Key, web, App, HttpServer};
 use actix_files as fs;
 use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use dotenvy::dotenv;
-use sqlx::mysql::MySqlPoolOptions;
 use std::io::Result;
 
 // Redis (for sessions)
 use deadpool_redis::{Config as RedisConfig};
 
 // My helper modules
-use db::{db_connection_string, redis_connection_string};
+use db::{init_db, redis_connection_string};
 
 use utils::init_tera;
 
@@ -18,13 +17,8 @@ use utils::init_tera;
 async fn main() -> Result<()> {
     dotenv().ok();
 
-    // MySql Database
-    let db_url = db_connection_string();
-    let pool = MySqlPoolOptions::new()
-        .max_connections(5)
-        .connect(&db_url)
-        .await
-        .expect("Failed to connect to database");
+    // MySql Database Connection
+    let pool = init_db().await.expect("❌ Failed to initialize database");
 
     // Redis Database
     let redis_url = redis_connection_string();

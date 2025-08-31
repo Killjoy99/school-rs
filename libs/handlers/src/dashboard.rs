@@ -7,10 +7,10 @@ use sqlx::MySqlPool;
 use utils::render_template;
 
 // Import the card model to dynamically build dashboard cards
-use models::{DashboardCard, Event};
+use schemas::{DashboardCard, Event};
 
 // To fetch students
-use models::{Student, Course};
+// use models::{Student, Course};
 
 pub async fn dashboard(tmpl: web::Data<Tera>, pool: web::Data<MySqlPool>, session: Session) -> HttpResponse {
     let mut ctx = Context::new();

@@ -17,29 +17,29 @@ pub async fn login_form(tmpl: web::Data<Tera>) -> HttpResponse {
     render_template(&tmpl, "login.html.tera", ctx).unwrap()
 }
 
-pub async fn login(
-    form: web::Form<(String, String)>, // username, password
-    pool: web::Data<MySqlPool>,
-    session: Session,
-) -> HttpResponse {
-    let (username, password) = form.into_inner();
+// pub async fn login(
+//     form: web::Form<(String, String)>, // username, password
+//     pool: web::Data<MySqlPool>,
+//     session: Session,
+// ) -> HttpResponse {
+//     let (username, password) = form.into_inner();
 
-    let user = sqlx::query_as::<_, User>("SELECT * FROM users WHERE username = $1")
-        .bind(&username)
-        .fetch_optional(&**pool)
-        .await
-        .unwrap();
+//     let user = sqlx::query_as::<_, User>("SELECT * FROM users WHERE username = $1")
+//         .bind(&username)
+//         .fetch_optional(&**pool)
+//         .await
+//         .unwrap();
 
-    if let Some(user) = user {
-        if verify(&password, &user.password_hash).unwrap() {
-            session.insert("user_id", user.id).unwrap();
-            session.insert("role", &user.role).unwrap();
-            return HttpResponse::Found().append_header(("Location", "/")).finish();
-        }
-    }
+//     if let Some(user) = user {
+//         if verify(&password, &user.password_hash).unwrap() {
+//             session.insert("user_id", user.id).unwrap();
+//             session.insert("role", &user.role).unwrap();
+//             return HttpResponse::Found().append_header(("Location", "/")).finish();
+//         }
+//     }
 
-    HttpResponse::Unauthorized().body("Invalid username or password")
-}
+//     HttpResponse::Unauthorized().body("Invalid username or password")
+// }
 
 pub async fn register_form(tmpl: web::Data<Tera>) -> HttpResponse {
     let mut ctx = tera::Context::new();

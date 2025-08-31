@@ -21,15 +21,15 @@
     Proposed Tech Stack:
     Backend: Actix-Web (Rust)
 
-    Database: PostgreSQL (with Diesel ORM or SQLx)
+    Database: PostgreSQL / MySql (with Diesel ORM or SQLx)
 
     Authentication: JWT + OAuth2 for third-party integrations
 
-    Frontend: (Separate) - Could be React/Vue.js for web, Flutter for mobile
+    Frontend: (Separate) - Tera Templating
 
     Real-time: Actix actors or WebSockets for notifications
 
-    Search: Elasticsearch integration for complex queries
+    Search: Elasticsearch integration for complex queries (REDIS)
 
     Caching: Redis for sessions and frequent queries
 
