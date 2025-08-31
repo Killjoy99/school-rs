@@ -1,0 +1,24 @@
+[package]
+name = "school-rs"
+version = "0.1.0"
+edition = "2024"
+# default-run = "school-rs"
+
+[dependencies]
+# Inherit from the parent workspace
+actix-web = { workspace = true }
+actix-session = { workspace = true }
+actix-files = { workspace = true }
+dotenvy = { workspace = true }
+sqlx = { workspace = true }
+deadpool-redis = { workspace = true }
+
+# Local Crate Dependencies
+config = { path = "../libs/config" }
+docs = { path = "../libs/docs" }
+db = { path = "../libs/db" }
+handlers = { path = "../libs/handlers" }
+models ={ path = "../libs/models" }
+routes = { path = "../libs/routes" }
+schemas = { path = "../libs/schemas" }
+utils = { path = "../libs/utils" }

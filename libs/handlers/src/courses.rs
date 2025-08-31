@@ -3,8 +3,8 @@ use actix_session::Session;
 use sqlx::MySqlPool;
 use tera::{Tera, Context};
 
-use crate::models::Course;
-use crate::utils::render_template;
+use models::Course;
+use utils::render_template;
 
 pub async fn index(tmpl: web::Data<Tera>, pool: web::Data<MySqlPool>, session: Session) -> HttpResponse {
     let mut ctx = Context::new();

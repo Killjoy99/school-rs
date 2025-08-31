@@ -3,8 +3,8 @@ use sqlx::MySqlPool;
 use tera::{Tera, Context};
 use actix_session::Session;
 
-use crate::models::Student;
-use crate::utils::render_template;
+use models::Student;
+use utils::render_template;
 
 pub async fn list_students(tmpl: web::Data<Tera>, pool: web::Data<MySqlPool>, session: Session) -> HttpResponse {
     let mut ctx = Context::new();

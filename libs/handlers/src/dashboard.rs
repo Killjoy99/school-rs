@@ -4,13 +4,13 @@ use actix_session::Session;
 use sqlx::MySqlPool;
 
 // Use the render util to insert date into the context
-use crate::utils::render_template;
+use utils::render_template;
 
 // Import the card model to dynamically build dashboard cards
-use crate::models::{DashboardCard, Event};
+use models::{DashboardCard, Event};
 
 // To fetch students
-use crate::models::{Student, Course};
+use models::{Student, Course};
 
 pub async fn dashboard(tmpl: web::Data<Tera>, pool: web::Data<MySqlPool>, session: Session) -> HttpResponse {
     let mut ctx = Context::new();

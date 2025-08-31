@@ -9,14 +9,10 @@ use std::io::Result;
 use deadpool_redis::{Config as RedisConfig};
 
 // My helper modules
-use db::connection::{db_connection_string, redis_connection_string};
+use db::{db_connection_string, redis_connection_string};
 
-mod routes;
-mod templates;
-mod db;
-mod models;
-mod handlers;
-mod utils;
+use utils::init_tera;
+
 
 #[actix_web::main]
 async fn main() -> Result<()> {
@@ -38,7 +34,7 @@ async fn main() -> Result<()> {
         .expect("❌ Failed to create Redis pool");
 
     // Templates
-    let tera = templates::init_tera();
+    let tera = init_tera();
 
     // Session secret
     let secret_key = Key::generate();
@@ -48,7 +44,7 @@ async fn main() -> Result<()> {
             .app_data(web::Data::new(tera.clone()))     //use the templates
             .app_data(web::Data::new(pool.clone()))     // use the database pool
             .app_data(web::Data::new(redis_pool.clone())) // use the redis pool
-            .service(fs::Files::new("/static", "./static").show_files_listing()) // static files
+            .service(fs::Files::new("/static", "./assets/static").show_files_listing()) // static files
             // Session middleware
             .wrap(SessionMiddleware::new(CookieSessionStore::default(), secret_key.clone()))
             .configure(routes::init_routes)

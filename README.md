@@ -59,6 +59,10 @@ This project is a School Management System built with [Rust](https://www.rust-la
     git push -u origin main
     ```
 
+handlers are functions with the logic for routes
+schemas are DTOs
+
+
 ## License
 
 MIT

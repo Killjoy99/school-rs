@@ -5,8 +5,8 @@ use sqlx::MySqlPool;
 use tera::Tera;
 use uuid::Uuid;
 
-use crate::models::User;
-use crate::utils::template::render_template;
+use models::User;
+use utils::render_template;
 
 pub async fn login_form(tmpl: web::Data<Tera>) -> HttpResponse {
     let mut ctx = tera::Context::new();

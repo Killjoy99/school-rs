@@ -1,0 +1,16 @@
+[package]
+name = "handlers"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+uuid ={ workspace = true }
+actix-web ={ workspace = true }
+actix-session ={ workspace = true }
+tera ={ workspace = true }
+sqlx ={ workspace = true }
+bcrypt ={ workspace = true }
+
+# Local dependencies
+models ={ path = "../models" }
+utils ={ path = "../utils" }

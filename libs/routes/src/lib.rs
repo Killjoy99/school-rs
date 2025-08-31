@@ -1,6 +1,6 @@
 use actix_web::web;
 
-use crate::handlers::{auth, dashboard, students, courses, dummy};
+use handlers::{auth, dashboard, students, courses, dummy};
 
 pub fn init_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(web::resource("/").route(web::get().to(dashboard::dashboard)))
