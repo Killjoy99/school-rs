@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSU Portal | Course Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0a0a1a;
+            --secondary-bg: #12122a;
+            --accent: #00f2ff;
+            --accent-alt: #ff00d6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0d0;
+            --card-bg: rgba(16, 18, 40, 0.7);
+            --glow: 0 0 15px;
+            --input-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --primary-bg: #f0f2f5;
+            --secondary-bg: #ffffff;
+            --accent: #0066ff;
+            --accent-alt: #ff0080;
+            --text-primary: #222222;
+            --text-secondary: #666688;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glow: 0 0 10px;
+            --input-bg: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .dark-mode-bg {
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(38, 5, 77, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(77, 5, 53, 0.4) 0%, transparent 40%),
+                linear-gradient(135deg, #0a0a1a 0%, #12122a 100%);
+        }
+
+        .light-mode-bg {
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(200, 220, 255, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(255, 200, 240, 0.6) 0%, transparent 40%),
+                linear-gradient(135deg, #f0f2f5 0%, #e6e9ef 100%);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .theme-toggle {
+            border: 1px solid rgba(0, 102, 255, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
+            box-shadow: var(--glow) var(--accent);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Header and Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-header {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .course-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Info Table */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .info-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .info-table tr {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .info-table th, .info-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .info-table th {
+            width: 200px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .info-table td {
+            font-weight: 600;
+        }
+
+        /* Syllabus Structure */
+        .syllabus-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .syllabus-list {
+            list-style-type: none;
+        }
+
+        .syllabus-list li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        [data-theme="light"] .syllabus-list li {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Faculty Section */
+        .faculty-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            border-radius: 15px;
+            color: white;
+        }
+
+        .faculty-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 30px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .breadcrumb {
+                margin-top: 10px;
+            }
+            
+            .info-table th, .info-table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .info-table th {
+                padding-bottom: 5px;
+            }
+            
+            .info-table td {
+                padding-top: 5px;
+            }
+            
+            .theme-toggle {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark" class="dark-mode-bg">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Main Content -->
+    <div class="course-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">LSU PORTAL</div>
+            <div class="breadcrumb">
+                <a href="#">Home</a> / <a href="#">Courses</a> / Course Details
+            </div>
+        </div>
+
+        <!-- Course Header -->
+        <div class="course-header">
+            <h1 class="course-title">Course Details</h1>
+            <p class="course-subtitle">View information about your programme of study</p>
+        </div>
+
+        <!-- View Course Section -->
+        <div class="syllabus-section">
+            <h2 class="section-title">View Course</h2>
+            
+            <table class="info-table">
+                <tr>
+                    <th>Programme Code</th>
+                    <td>DS/BSS/DS/01</td>
+                </tr>
+                <tr>
+                    <th>Programme Name</th>
+                    <td>Bachelor of Social Science Honours Degree in Development Studies</td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td>Development Studies</td>
+                </tr>
+                <tr>
+                    <th>Duration (Yrs)</th>
+                    <td>4.0</td>
+                </tr>
+            </table>
+            
+            <div class="divider"></div>
+            
+            <h3 class="section-title">Syllabus Structure</h3>
+            <ul class="syllabus-list">
+                <li>Part 1: Medales</li>
+                <li>Part 2: Medales</li>
+                <li>Part 3: Medales</li>
+                <li>Part 4: Medales</li>
+            </ul>
+        </div>
+
+        <!-- Faculty Section -->
+        <div class="faculty-section">
+            <div class="faculty-title">FACULTY OF AGRICULTURAL SCIENCES</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+            
+            themeToggle.addEventListener('click', () => {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.setAttribute('data-theme', 'light');
+                    body.classList.remove('dark-mode-bg');
+                    body.classList.add('light-mode-bg');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    body.classList.remove('light-mode-bg');
+                    body.classList.add('dark-mode-bg');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

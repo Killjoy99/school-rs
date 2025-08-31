@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title | default(value="School Management System") }}</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css"> <!-- Local Font Awesome -->
+    <!-- FullCalendar CSS CDN-->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto; /* takes remaining space */
+        }
+        footer {
+            flex-shrink: 0; /* prevent shrinking */
+        }
+    </style>
+
+
+    <!-- FullCalendar JS CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    {% if show_header | default(value=true) %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">{{ title | default(value="eNtweni School Management System") }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/students"><i class="fas fa-user-graduate me-1"></i> Students</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/courses"><i class="fas fa-book me-1"></i> Courses</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    {% block content %}
+        {# Main Content here #}
+    {% endblock %}
+
+    <!-- Footer -->
+    {% if show_footer | default(value=true) %}
+    <footer class="bg-light text-center py-3 mt-auto border-top">
+        &copy; {{ current_year }} eNtweni School Management System
+    </footer>
+    {% endif %}
+
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

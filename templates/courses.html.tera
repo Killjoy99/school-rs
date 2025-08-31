@@ -1,0 +1,35 @@
+{% extends "base.html.tera" %}
+
+{% block content %}
+<h1 class="mb-4"><i class="fas fa-book me-2"></i>{{ title }}</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for course in courses %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-book-reader me-1"></i>{{ course.name }}</h5>
+                    <p class="card-text"><strong>Code:</strong> {{ course.code }}</p>
+
+                    {% if user_role == "admin" %}
+                        <p class="text-muted"><em>Admin controls:</em></p>
+                        <div class="d-flex justify-content-between">
+                            <a href="/courses/edit/{{ course.id }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </a>
+                            <a href="/courses/delete/{{ course.id }}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt me-1"></i>Delete
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-muted"><em><i class="fas fa-users me-1"></i>Enrolled Students: {{ course.students_count | default(value=0) }}</em></p>
+                        <a href="/courses/view/{{ course.id }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

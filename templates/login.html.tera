@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSU Portal | Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0a0a1a;
+            --secondary-bg: #12122a;
+            --accent: #00f2ff;
+            --accent-alt: #ff00d6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0d0;
+            --card-bg: rgba(16, 18, 40, 0.7);
+            --glow: 0 0 15px;
+            --input-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --primary-bg: #f0f2f5;
+            --secondary-bg: #ffffff;
+            --accent: #0066ff;
+            --accent-alt: #ff0080;
+            --text-primary: #222222;
+            --text-secondary: #666688;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glow: 0 0 10px;
+            --input-bg: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .dark-mode-bg {
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(38, 5, 77, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(77, 5, 53, 0.4) 0%, transparent 40%),
+                linear-gradient(135deg, #0a0a1a 0%, #12122a 100%);
+        }
+
+        .light-mode-bg {
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(200, 220, 255, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(255, 200, 240, 0.6) 0%, transparent 40%),
+                linear-gradient(135deg, #f0f2f5 0%, #e6e9ef 100%);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .theme-toggle {
+            border: 1px solid rgba(0, 102, 255, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
+            box-shadow: var(--glow) var(--accent);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Login Container */
+        .login-container {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            min-height: 500px;
+        }
+
+        /* Form Panel */
+        .form-panel {
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .logo-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            z-index: 2;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .form-control {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 242, 255, 0.2);
+        }
+
+        [data-theme="light"] .form-control:focus {
+            box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-alt));
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            margin-top: 15px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: var(--accent-alt);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            flex: 1;
+            background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none" /><path d="M20,20 L80,80 M80,20 L20,80" stroke="white" stroke-width="2" /></svg>');
+            opacity: 0.1;
+        }
+
+        .info-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-text {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            max-width: 300px;
+        }
+
+        .info-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 400px;
+            }
+            
+            .info-panel {
+                order: -1;
+                padding: 30px;
+            }
+            
+            .form-panel {
+                padding: 30px;
+            }
+            
+            .theme-toggle {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark" class="dark-mode-bg">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <!-- Form Panel -->
+        <div class="form-panel">
+            <div class="logo-container">
+                <div class="logo">LSU PORTAL</div>
+                <div class="logo-subtitle">Lupane State University</div>
+            </div>
+            
+            <h2 class="form-title">Welcome Back</h2>
+            <p class="form-subtitle">Sign in to access your account</p>
+            
+            <form>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-control" placeholder="Student ID (e.g L02523443Q)" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-control" placeholder="Password (e.g 09-2386847C45)" required>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Login to Account
+                </button>
+                
+                <a href="#" class="forgot-link">Forgot your password?</a>
+            </form>
+        </div>
+        
+        <!-- Info Panel -->
+        <div class="info-panel">
+            <div class="info-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3 class="info-title">Student Portal</h3>
+            <p class="info-text">Access your courses, grades, and university resources all in one place</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+            
+            themeToggle.addEventListener('click', () => {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.setAttribute('data-theme', 'light');
+                    body.classList.remove('dark-mode-bg');
+                    body.classList.add('light-mode-bg');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    body.classList.remove('light-mode-bg');
+                    body.classList.add('dark-mode-bg');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
